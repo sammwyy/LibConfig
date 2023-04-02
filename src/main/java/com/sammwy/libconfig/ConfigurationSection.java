@@ -26,47 +26,38 @@ public class ConfigurationSection {
 
     // Getters
     public Object get(String key) {
-        return this.values.get(key);
+        ConfigurationSection section = this;
+        String[] paths = key.split("[.]");
+
+        for (int i = 1; i < paths.length; i++) {
+            section = section.getConfigurationSection(paths[i - 1]);
+            key = paths[i];
+        }
+
+        return section == null ? null : section.values.get(key);
     }
 
     public boolean getBoolean(String key) {
-        if (this.values.containsKey(key)) {
-            return (boolean) this.values.get(key);
-        } else {
-            return false;
-        }
+        Object value = this.get(key);
+        return value == null ? false : (boolean) value;
     }
 
     public double getDouble(String key) {
-        if (this.values.containsKey(key)) {
-            return (double) this.values.get(key);
-        } else {
-            return 0;
-        }
+        Object value = this.get(key);
+        return value == null ? 0 : (double) value;
     }
 
     public float getFloat(String key) {
-        if (this.values.containsKey(key)) {
-            return (float) ((double) this.values.get(key));
-        } else {
-            return 0;
-        }
+        return (float) this.getDouble(key);
     }
 
     public int getInt(String key) {
-        if (this.values.containsKey(key)) {
-            return (int) this.values.get(key);
-        } else {
-            return 0;
-        }
+        Object value = this.get(key);
+        return value == null ? 0 : (int) value;
     }
 
     public Location getLocation(String key) {
-        if (this.values.containsKey(key)) {
-            return LocationAdapter.deserialize(this, key);
-        } else {
-            return null;
-        }
+        return LocationAdapter.deserialize(this, key);
     }
 
     public List<Location> getLocationList(String key) {
@@ -81,19 +72,12 @@ public class ConfigurationSection {
     }
 
     public long getLong(String key) {
-        if (this.values.containsKey(key)) {
-            return (long) this.values.get(key);
-        } else {
-            return 0;
-        }
+        Object value = this.get(key);
+        return value == null ? 0 : (long) value;
     }
 
     public Material getMaterial(String key) {
-        if (this.values.containsKey(key)) {
-            return MaterialAdapter.deserialize(this, key);
-        } else {
-            return null;
-        }
+        return MaterialAdapter.deserialize(this, key);
     }
 
     public List<Material> getMaterialList(String key) {
@@ -109,13 +93,13 @@ public class ConfigurationSection {
 
     @SuppressWarnings("unchecked")
     public ConfigurationSection getConfigurationSection(String key) {
-        Map<String, Object> child = (Map<String, Object>) this.values.get(key);
+        Map<String, Object> child = (Map<String, Object>) this.get(key);
         return new ConfigurationSection(child);
     }
 
     @SuppressWarnings("unchecked")
     public List<ConfigurationSection> getConfigurationSectionList(String key) {
-        List<Map<String, Object>> children = (List<Map<String, Object>>) this.values.get(key);
+        List<Map<String, Object>> children = (List<Map<String, Object>>) this.get(key);
         List<ConfigurationSection> sections = new ArrayList<>();
         for (Map<String, Object> child : children) {
             sections.add(new ConfigurationSection(child));
@@ -124,11 +108,7 @@ public class ConfigurationSection {
     }
 
     public Sound getSound(String key) {
-        if (this.values.containsKey(key)) {
-            return SoundAdapter.deserialize(this, key);
-        } else {
-            return null;
-        }
+        return SoundAdapter.deserialize(this, key);
     }
 
     public List<Sound> getSoundList(String key) {
@@ -143,28 +123,18 @@ public class ConfigurationSection {
     }
 
     public String getString(String key) {
-        if (this.values.containsKey(key)) {
-            return (String) this.values.get(key);
-        } else {
-            return null;
-        }
+        Object value = this.get(key);
+        return value == null ? null : (String) value;
     }
 
     @SuppressWarnings("unchecked")
     public List<String> getStringList(String key) {
-        if (this.values.containsKey(key)) {
-            return (List<String>) this.values.get(key);
-        } else {
-            return null;
-        }
+        Object value = this.get(key);
+        return value == null ? null : (List<String>) value;
     }
 
     public World getWorld(String key) {
-        if (this.values.containsKey(key)) {
-            return WorldAdapter.deserialize(this, key);
-        } else {
-            return null;
-        }
+        return WorldAdapter.deserialize(this, key);
     }
 
     public List<World> getWorldList(String key) {

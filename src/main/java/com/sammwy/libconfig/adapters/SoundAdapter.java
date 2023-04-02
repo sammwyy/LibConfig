@@ -11,9 +11,8 @@ public class SoundAdapter {
     private static Map<String, Sound> cache = new HashMap<>();
 
     public static Sound deserialize(String soundName) {
-        if (soundName == null || soundName.isEmpty()) {
+        if (soundName == null || soundName.isEmpty())
             return null;
-        }
 
         if (cache.containsKey(soundName)) {
             return cache.get(soundName);

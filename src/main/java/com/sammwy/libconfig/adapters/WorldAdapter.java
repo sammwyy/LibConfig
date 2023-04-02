@@ -7,6 +7,8 @@ import com.sammwy.libconfig.ConfigurationSection;
 
 public class WorldAdapter {
     public static World deserialize(String rawValue) {
+        if (rawValue == null || rawValue.isEmpty())
+            return null;
         return Bukkit.getWorld(rawValue);
     }
 

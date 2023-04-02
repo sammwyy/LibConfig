@@ -8,24 +8,20 @@ import com.sammwy.libconfig.ConfigurationSection;
 public class LocationAdapter {
     public static Location deserialize(ConfigurationSection config, String key) {
         if (!key.isEmpty()) {
-            key += ".";
+            config = config.getConfigurationSection(key);
         }
 
-        World world = WorldAdapter.deserialize(config, key);
-        double x = config.getDouble(key + "x");
-        double y = config.getDouble(key + "y");
-        double z = config.getDouble(key + "z");
-        float yaw = config.getFloat(key + "yaw");
-        float pitch = config.getFloat(key + "pitch");
+        World world = WorldAdapter.deserialize(config, "world");
+        double x = config.getDouble("x");
+        double y = config.getDouble("y");
+        double z = config.getDouble("z");
+        float yaw = config.getFloat("yaw");
+        float pitch = config.getFloat("pitch");
 
         return new Location(world, x, y, z, yaw, pitch);
     }
 
     public static void serialize(ConfigurationSection config, String key, Location value) {
-        if (!key.isEmpty()) {
-            key += ".";
-        }
-
         String worldName = value.getWorld().getName();
         config.set(key + "world", worldName);
         config.set(key + "x", value.getX());

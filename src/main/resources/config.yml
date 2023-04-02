@@ -35,3 +35,9 @@ type_map:
   first: Hello
   second: 123
   third: true
+
+# Nested values
+nest:
+  string: Hello World
+  int: 123
+  boolean: true
