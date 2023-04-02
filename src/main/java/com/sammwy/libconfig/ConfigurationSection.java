@@ -3,6 +3,7 @@ package com.sammwy.libconfig;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -56,6 +57,10 @@ public class ConfigurationSection {
     public int getInt(String key) {
         Object value = this.get(key);
         return value == null ? 0 : (int) value;
+    }
+
+    public Set<String> getKeys() {
+        return this.values.keySet();
     }
 
     public Location getLocation(String key, boolean withWorld) {
