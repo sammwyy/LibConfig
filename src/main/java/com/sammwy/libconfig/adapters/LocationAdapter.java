@@ -6,12 +6,12 @@ import org.bukkit.World;
 import com.sammwy.libconfig.ConfigurationSection;
 
 public class LocationAdapter {
-    public static Location deserialize(ConfigurationSection config, String key) {
+    public static Location deserialize(ConfigurationSection config, String key, boolean withWorld) {
         if (!key.isEmpty()) {
             config = config.getConfigurationSection(key);
         }
 
-        World world = WorldAdapter.deserialize(config, "world");
+        World world = withWorld ? WorldAdapter.deserialize(config, "world") : null;
         double x = config.getDouble("x");
         double y = config.getDouble("y");
         double z = config.getDouble("z");
@@ -22,8 +22,11 @@ public class LocationAdapter {
     }
 
     public static void serialize(ConfigurationSection config, String key, Location value) {
-        String worldName = value.getWorld().getName();
-        config.set(key + "world", worldName);
+        World world = value.getWorld();
+        if (world != null) {
+            String worldName = world.getName();
+            config.set(key + "world", worldName);
+        }
         config.set(key + "x", value.getX());
         config.set(key + "y", value.getY());
         config.set(key + "z", value.getZ());

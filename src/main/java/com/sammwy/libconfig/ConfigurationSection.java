@@ -44,6 +44,8 @@ public class ConfigurationSection {
 
     public double getDouble(String key) {
         Object value = this.get(key);
+        if (value instanceof Integer)
+            return (double) ((int) value);
         return value == null ? 0 : (double) value;
     }
 
@@ -56,19 +58,27 @@ public class ConfigurationSection {
         return value == null ? 0 : (int) value;
     }
 
-    public Location getLocation(String key) {
-        return LocationAdapter.deserialize(this, key);
+    public Location getLocation(String key, boolean withWorld) {
+        return LocationAdapter.deserialize(this, key, withWorld);
     }
 
-    public List<Location> getLocationList(String key) {
+    public Location getLocation(String key) {
+        return this.getLocation(key, true);
+    }
+
+    public List<Location> getLocationList(String key, boolean withWorld) {
         List<ConfigurationSection> sections = this.getConfigurationSectionList(key);
         List<Location> locations = new ArrayList<>();
 
         for (ConfigurationSection section : sections) {
-            locations.add(LocationAdapter.deserialize(section, ""));
+            locations.add(LocationAdapter.deserialize(section, "", withWorld));
         }
 
         return locations;
+    }
+
+    public List<Location> getLocationList(String key) {
+        return this.getLocationList(key, true);
     }
 
     public long getLong(String key) {
