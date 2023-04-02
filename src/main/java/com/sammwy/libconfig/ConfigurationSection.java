@@ -159,8 +159,16 @@ public class ConfigurationSection {
     }
 
     // Setters
-    public void set(String key, Object value) {
-        this.values.put(key, value);
+    public Object set(String key, Object value) {
+        ConfigurationSection section = this;
+        String[] paths = key.split("[.]");
+
+        for (int i = 1; i < paths.length; i++) {
+            section = section.getConfigurationSection(paths[i - 1]);
+            key = paths[i];
+        }
+
+        return section == null ? null : section.values.get(key);
     }
 
     public void set(String key, Location location) {
