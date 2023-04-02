@@ -1,7 +1,7 @@
 # Primitive tests
 type_string: "Hello World"
 type_int: 123
-type_float: !!float 1.0
+type_float: 1.0
 type_double: 1.0
 type_boolean: true
 type_long: 9999999999

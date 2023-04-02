@@ -47,7 +47,7 @@ public class ConfigurationSection {
 
     public float getFloat(String key) {
         if (this.values.containsKey(key)) {
-            return (float) this.values.get(key);
+            return (float) ((double) this.values.get(key));
         } else {
             return 0;
         }
@@ -70,7 +70,7 @@ public class ConfigurationSection {
     }
 
     public List<Location> getLocationList(String key) {
-        List<ConfigurationSection> sections = this.getSectionList(key);
+        List<ConfigurationSection> sections = this.getConfigurationSectionList(key);
         List<Location> locations = new ArrayList<>();
 
         for (ConfigurationSection section : sections) {
@@ -108,13 +108,13 @@ public class ConfigurationSection {
     }
 
     @SuppressWarnings("unchecked")
-    public ConfigurationSection getSection(String key) {
+    public ConfigurationSection getConfigurationSection(String key) {
         Map<String, Object> child = (Map<String, Object>) this.values.get(key);
         return new ConfigurationSection(child);
     }
 
     @SuppressWarnings("unchecked")
-    public List<ConfigurationSection> getSectionList(String key) {
+    public List<ConfigurationSection> getConfigurationSectionList(String key) {
         List<Map<String, Object>> children = (List<Map<String, Object>>) this.values.get(key);
         List<ConfigurationSection> sections = new ArrayList<>();
         for (Map<String, Object> child : children) {

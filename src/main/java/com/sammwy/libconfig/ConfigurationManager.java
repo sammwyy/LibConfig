@@ -13,6 +13,8 @@ import java.util.zip.ZipEntry;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.sammwy.libconfig.errors.ConfigLoadException;
+
 public class ConfigurationManager {
     private Map<String, Object> cache;
     private File directory;
@@ -43,7 +45,7 @@ public class ConfigurationManager {
         try {
             config.load();
             return config;
-        } catch (IOException e) {
+        } catch (ConfigLoadException e) {
             e.printStackTrace();
         }
 
