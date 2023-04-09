@@ -11,7 +11,7 @@
     <!-- Plugin Information -->
     <name>LibConfig</name>
     <description>Modern configuration API for Minecraft.</description>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <url>https://github.com/sammwyy/LibConfig</url>
 
     <properties>
